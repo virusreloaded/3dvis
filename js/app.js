@@ -73,9 +73,10 @@ $.getJSON('data.json', function(info){
     document.getElementById("slider1-value").innerHTML =years[years.length-1];
 
     console.log(dataByYear);
+    console.log(Math.max(dataByYear[1961][0]));
     init();
     animate();
-        changeData(2010);
+    changeData(2010);
 
 });
 
@@ -269,7 +270,7 @@ function init() {
                 var material8 = new THREE.MeshPhongMaterial( { color: 0xD9444E, transparent: true, shininess: 200, opacity: 0.8 } ); //Nuclear
 
 
-                var geometry = new THREE.BoxBufferGeometry( 10, 1, 10 );
+                var geometry = new THREE.BoxBufferGeometry( 20, 1, 20 );
 
                 var cube = new THREE.Mesh( geometry, material1 );
                 cube.position.set(0,0,100);
@@ -452,9 +453,15 @@ function onSliderChange() {
 }
 function onDocumentMouseMove(event) {
 
+    if ( !INTERSECTED ) {
+        var popupX = event.clientX;
+        var popupY = event.clientY-140;
+    }
+
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
+    
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( graph );
@@ -479,7 +486,6 @@ function onDocumentMouseMove(event) {
             $('html,body').css('cursor', 'pointer');
 
         }
-        var popupY = event.clientY-140;
 
         var towerName = INTERSECTED.name;
         towerName = towerName.substring(towerName.indexOf("-") + 1); // get tower index (11...33)
@@ -521,7 +527,7 @@ function onDocumentMouseMove(event) {
 
         $('#popup').html('<b>'+INTERSECTED.state+'</b> '+verb+' <b>'+INTERSECTED.value+'</b> Quads of <b>'+energyType+'</b> energy in <b>'+sectorType+'</b> sector(s), out of <b>'+totalSum+'</b> Quads total, in <b>'+INTERSECTED.year+'</b> year<br>Some additional text here<br>Link: <a href="">You cant click this link :D</a>'); //show some data in popup window on intersection
         $('#popup').fadeIn(300);
-        $('#popup').css('left',''+event.clientX+'px');
+        $('#popup').css('left',''+popupX+'px');
         $('#popup').css('top',''+popupY+'px');
 
     } else {
@@ -537,7 +543,13 @@ function onDocumentMouseMove(event) {
 
         }
 
-        $('#popup').fadeOut(300);
+        if ($( '#popup' ).hasClass( 'close' )) {
+            $('#popup').fadeOut(400);            
+        } else {
+            $('#popup').fadeIn(100);       
+        }
+       
+
     }
 
     //console.log(mouse);
@@ -592,7 +604,7 @@ function fillGraph(name,dataSet,layerNumber) {
     object2.year = dataSet.Year;
     var visValue2;
 
-    if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue) } else { visValue2 = Math.log(rawValue2) }
+    if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
 
     object2.visValue = visValue2;
     object2.scale.y = visValue2;
@@ -738,14 +750,14 @@ function updateGraphVisually() {
 //     myDoughnutChart.update();
 // }
 function makeFlat(){
-    scene.getObjectByName( 'B' ).scale.z = 0.1;
-    scene.getObjectByName( 'C' ).scale.z = 0.1;
-    scene.getObjectByName( 'A4' ).scale.z = 0.1;
-    scene.getObjectByName( 'A2' ).scale.z = 0.1;
-    scene.getObjectByName( 'A5' ).scale.z = 0.1;
-    scene.getObjectByName( 'A1' ).scale.z = 0.1;
-    scene.getObjectByName( 'A3' ).scale.z = 0.1;
-    scene.getObjectByName( 'A6' ).scale.z = 0.1;
+    scene.getObjectByName( 'B' ).scale.z = 0.01;
+    scene.getObjectByName( 'C' ).scale.z = 0.01;
+    scene.getObjectByName( 'A4' ).scale.z = 0.01;
+    scene.getObjectByName( 'A2' ).scale.z = 0.01;
+    scene.getObjectByName( 'A5' ).scale.z = 0.01;
+    scene.getObjectByName( 'A1' ).scale.z = 0.01;
+    scene.getObjectByName( 'A3' ).scale.z = 0.01;
+    scene.getObjectByName( 'A6' ).scale.z = 0.01;
 }
 function makeFat(){
     scene.getObjectByName( 'B' ).scale.z = 1;
@@ -771,14 +783,21 @@ $('.mdl-radio__button').click(function(){
         rotateGraph(0);
         makeFat();
         cameraControls.enabled = true;
-        cameraTarget = new THREE.Vector3( 0, 30, 0 );
+        cameraTarget = new THREE.Vector3( 0, 10, 0 );
     }
     if (value == '3') {
         rotateGraph(0);
         cameraControls.reset();
         cameraControls.enabled = false;
         makeFlat();
-        cameraTarget = new THREE.Vector3( 0, 40, 0 );
+        cameraTarget = new THREE.Vector3( 0, 20, 0 );
     }
 
+});
+
+$('#popup').hover(function(){
+    $('#popup').removeClass('close');
+});
+$( '#popup' ).mouseleave(function() {
+    $('#popup').addClass('close');
 });
