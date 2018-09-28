@@ -24,7 +24,7 @@ html, body {
   top: 20vh;
   right: 60px;
 }
-.years_container {
+.filter_container {
   position: absolute;
   bottom: 60px;
   left: 50%;
@@ -34,7 +34,7 @@ html, body {
 .data_type {
   position: absolute;
   width: 400px;
-  bottom: 60px;
+  top: 20%;
   right: 60px;
 }
 .data_mode {
@@ -51,8 +51,8 @@ html, body {
 .demo-list-radio {
   display: inline;
 }
-.nrg {
-  width: 128px;
+.filter-item {
+  width: 64px;
   cursor: pointer;
   display: inline-block;
   -moz-transition: all 0.5s ease-out;
@@ -60,11 +60,38 @@ html, body {
   -o-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
 }
-.nrg img {
+.filter-item img {
   width: 100%;
 }
-.nrg:hover {
-  background: rgba(255,255,255,0.1);
+.filter-item:hover {
+  opacity: 0.8;
+}
+.filter-item.on {
+  opacity: 1;
+}
+.filter-item.off {
+  opacity: 0.4;
+}
+.filter-item2 {
+  width: 64px;
+  cursor: pointer;
+  display: inline-block;
+  -moz-transition: all 0.5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+.filter-item2 img {
+  width: 100%;
+}
+.filter-item2:hover {
+  opacity: 0.8;
+}
+.filter-item2.on {
+  opacity: 1;
+}
+.filter-item2.off {
+  opacity: 0.4;
 }
 .logo {
   font-size: 32px;

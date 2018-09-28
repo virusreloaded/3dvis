@@ -29,6 +29,10 @@ var years = [];
 var dataByYear = [];
 var filteredData = [];
 
+var stateId = 'NY';
+var stateName = 'New York';
+var currentYear = 2014;
+
 var frustumSize = 1000;
 
 
@@ -173,6 +177,7 @@ function init() {
                 var cube = new THREE.Mesh( geometry1, material1 );
                 cube.position.set(spread*i-11,heigth1[i]/2,spread*j-111);
                 cube.name = 'B-'+firstLetter+''+secondLetter+'';
+                cube.energyType = 'waste';
                 graphSystem.add(cube);
                 graph.push( cube );
 
@@ -259,9 +264,12 @@ function init() {
 
     function createGraph2() {
 
+                var material00 = new THREE.MeshPhongMaterial( { color: 0xAEAEAE, transparent: true, shininess: 200, opacity: 0.8 } );
+                var material01 = new THREE.MeshPhongMaterial( { color: 0x808080, transparent: true, shininess: 200, opacity: 0.8 } );
+                var material02 = new THREE.MeshPhongMaterial( { color: 0x585B62, transparent: true, shininess: 200, opacity: 0.8 } );
+
                 var material1 = new THREE.MeshPhongMaterial( { color: 0x333333, transparent: true, shininess: 200, opacity: 0.8 } );
                 var material2 = new THREE.MeshPhongMaterial( { color: 0x999999, transparent: true, shininess: 200, opacity: 0.8 } );
-
                 var material6 = new THREE.MeshPhongMaterial( { color: 0xFFDB87, transparent: true, shininess: 200, opacity: 0.8 } ); //Solar
                 var material4 = new THREE.MeshPhongMaterial( { color: 0x3C8FBB, transparent: true, shininess: 200, opacity: 0.8 } ); //Wind
                 var material7 = new THREE.MeshPhongMaterial( { color: 0xF77C48, transparent: true, shininess: 200, opacity: 0.8 } ); //Geothermal
@@ -272,24 +280,49 @@ function init() {
 
                 var geometry = new THREE.BoxBufferGeometry( 20, 1, 20 );
 
-                var cube = new THREE.Mesh( geometry, material1 );
-                cube.position.set(0,0,100);
-                cube.name = 'B';
-                cube.singleTower = true;
-                cube.energyType = 'Natural gas';
-                graphSystem.add(cube);
-                graph.push( cube );
+                var cube00 = new THREE.Mesh( geometry, material00 );
+                cube00.position.set(0,0,100);
+                cube00.name = 'B00';
+                cube00.singleTower = true;
+                cube00.energyType = 'Natural gas';
+                graphSystem.add(cube00);
+                graph.push( cube00 );
+
+                var cube01 = new THREE.Mesh( geometry, material01 );
+                cube01.position.set(0,1,100);
+                cube01.name = 'B01';
+                cube01.singleTower = true;
+                cube01.energyType = 'Petroleum';
+                graphSystem.add(cube01);
+                graph.push( cube01 );
+
+                var cube02 = new THREE.Mesh( geometry, material02 );
+                cube02.position.set(0,2,100);
+                cube02.name = 'B02';
+                cube02.singleTower = true;
+                cube02.energyType = 'Coal';
+                graphSystem.add(cube02);
+                graph.push( cube02 );
+
+                // var cube = new THREE.Mesh( geometry, material1 );
+                // cube.position.set(0,0,100);
+                // cube.name = 'B';
+                // cube.singleTower = true;
+                // cube.energyType = 'Natural gas';
+                // graphSystem.add(cube);
+                // graph.push( cube );
 
                 var cube2 = new THREE.Mesh( geometry, material2 );
-                cube2.position.set(0,1,100);
+                cube2.position.set(0,3,100);
                 cube2.name = 'C';
                 cube2.singleTower = true;
                 cube2.energyType = 'waste';
+                cube2.material.color = new THREE.Color( 0xCAC9C9 );
                 graphSystem.add(cube2);
                 graph.push( cube2 );
 
                 var cube3 = new THREE.Mesh( geometry, material3 );
-                cube3.position.set(0,2,100);
+                cube3.position.set(0,4,100);
                 cube3.name = 'A4';
                 cube3.singleTower = true;
                 cube3.energyType = 'Hydro';
@@ -297,7 +330,7 @@ function init() {
                 graph.push( cube3 );
 
                 var cube4 = new THREE.Mesh( geometry, material4 );
-                cube4.position.set(0,3,100);
+                cube4.position.set(0,5,100);
                 cube4.name = 'A2';
                 cube4.singleTower = true;
                 cube4.energyType = 'Wind';
@@ -305,7 +338,7 @@ function init() {
                 graph.push( cube4 );
 
                 var cube5 = new THREE.Mesh( geometry, material5 );
-                cube5.position.set(0,4,100);
+                cube5.position.set(0,6,100);
                 cube5.name = 'A5';
                 cube5.singleTower = true;
                 cube5.energyType = 'Biofuel';
@@ -313,7 +346,7 @@ function init() {
                 graph.push( cube5 );
 
                 var cube6 = new THREE.Mesh( geometry, material6 );
-                cube6.position.set(0,5,100);
+                cube6.position.set(0,7,100);
                 cube6.name = 'A1';
                 cube6.singleTower = true;
                 cube6.energyType = 'Solar';
@@ -321,7 +354,7 @@ function init() {
                 graph.push( cube6 );
 
                 var cube7 = new THREE.Mesh( geometry, material7 );
-                cube7.position.set(0,6,100);
+                cube7.position.set(0,8,100);
                 cube7.name = 'A3';
                 cube7.singleTower = true;
                 cube7.energyType = 'Geothermal';
@@ -329,7 +362,7 @@ function init() {
                 graph.push( cube7 );
 
                 var cube8 = new THREE.Mesh( geometry, material8 );
-                cube8.position.set(0,7,100);
+                cube8.position.set(0,9,100);
                 cube8.name = 'A6';
                 cube8.singleTower = true;
                 cube8.energyType = 'Nuclear';
@@ -474,7 +507,7 @@ function onDocumentMouseMove(event) {
 
             for (var i = 0; i< graph.length; i++) {
 
-                    graph[i].material.opacity = 0.4;
+                    graph[i].material.opacity = 0.6;
 
             }
 
@@ -492,7 +525,9 @@ function onDocumentMouseMove(event) {
 
 
         if (INTERSECTED.singleTower) {
-            var totalSum =  parseInt(scene.getObjectByName( 'B' ).value) +
+            var totalSum =  parseInt(scene.getObjectByName( 'B00' ).value) +
+                            parseInt(scene.getObjectByName( 'B01' ).value) +
+                            parseInt(scene.getObjectByName( 'B02' ).value) +
                             parseInt(scene.getObjectByName( 'C' ).value) +
                             parseInt(scene.getObjectByName( 'A1' ).value) +
                             parseInt(scene.getObjectByName( 'A2' ).value) +
@@ -501,7 +536,8 @@ function onDocumentMouseMove(event) {
                             parseInt(scene.getObjectByName( 'A5' ).value) +
                             parseInt(scene.getObjectByName( 'A6' ).value);
 
-            var sectorType = 'All type of';
+            // var sectorType = ' All type of </b> sector(s)';
+            var sectorType = '';
         } else {
             var totalSum =  parseInt(scene.getObjectByName( 'B-'+towerName+'' ).value) +
                             parseInt(scene.getObjectByName( 'C-'+towerName+'' ).value) +
@@ -512,7 +548,7 @@ function onDocumentMouseMove(event) {
                             parseInt(scene.getObjectByName( 'A5-'+towerName+'' ).value) +
                             parseInt(scene.getObjectByName( 'A6-'+towerName+'' ).value);
 
-            var sectorType = INTERSECTED.sector;
+            var sectorType = ' in ' + INTERSECTED.sector + '</b> sector(s)';
         }
 
         if (INTERSECTED.energyType == 'waste') {
@@ -525,7 +561,8 @@ function onDocumentMouseMove(event) {
 
         // console.log('tower index: ',towerName, 'tower total value: ',totalSum); // Helps better understand what tower type is hovered and its sum
 
-        $('#popup').html('<b>'+INTERSECTED.state+'</b> '+verb+' <b>'+INTERSECTED.value+'</b> Quads of <b>'+energyType+'</b> energy in <b>'+sectorType+'</b> sector(s), out of <b>'+totalSum+'</b> Quads total, in <b>'+INTERSECTED.year+'</b> year<br>Some additional text here<br>Link: <a href="">You cant click this link :D</a>'); //show some data in popup window on intersection
+        // $('#popup').html('<b>'+INTERSECTED.state+'</b> '+verb+' <b>'+INTERSECTED.value+'</b> Quads of <b>'+energyType+'</b> energy<b>'+sectorType+', out of <b>'+totalSum+'</b> Quads total, in <b>'+INTERSECTED.year+'</b> year<br>Some additional text here<br>Link: <a href="">You cant click this link :D</a>'); //show some data in popup window on intersection
+        $('#popup').html('<b>'+stateName+'</b> '+verb+' <b>'+INTERSECTED.value+'</b> Quads of <b>'+energyType+'</b> energy<b>'+sectorType+', out of <b>'+totalSum+'</b> Quads total, in <b>'+INTERSECTED.year+'</b> year<br>Some additional text here<br>Link: <a href="">You cant click this link :D</a>'); //show some data in popup window on intersection
         $('#popup').fadeIn(300);
         $('#popup').css('left',''+popupX+'px');
         $('#popup').css('top',''+popupY+'px');
@@ -562,10 +599,12 @@ function rotateGraph(angle) {
 }
 function changeData(year) {
 
+    currentYear = year;
+
     filteredData = [];
 
     for (var i = 0; i < dataByYear[year].length; i++) {
-        if ( dataByYear[year][i].State == 'NY' ) {
+        if ( dataByYear[year][i].State == stateId ) {
             filteredData.push( dataByYear[year][i] );
         }
     }
@@ -574,6 +613,7 @@ function changeData(year) {
         layer[i] = [];
     }
   
+    console.log(filteredData);
     for (var i = 0; i < filteredData.length; i++) {
 
         fillGraph( filteredData[i].Type, filteredData[i], i );
@@ -584,7 +624,6 @@ function changeData(year) {
 
     // updateChart();
 
-    console.log(filteredData);
     
 }
 
@@ -597,19 +636,64 @@ function fillGraph(name,dataSet,layerNumber) {
     for (var i = 0; i<8; i++) {
         heightsGlobal2[i] = [];
     }
-    var object2 = scene.getObjectByName( ''+name+'' );
-    var rawValue2 = parseInt(dataSet['11'])+parseInt(dataSet['12'])+parseInt(dataSet['13'])+parseInt(dataSet['21'])+parseInt(dataSet['22'])+parseInt(dataSet['23'])+parseInt(dataSet['31'])+parseInt(dataSet['32'])+parseInt(dataSet['33']);
-    object2.value = Math.round(rawValue2);
-    object2.state = dataSet.State;
-    object2.year = dataSet.Year;
-    var visValue2;
 
-    if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
+    if (name == 'B') {
+        var object00 = scene.getObjectByName( 'B00' );
+        var rawValue2 = parseInt(dataSet['11'])+parseInt(dataSet['12'])+parseInt(dataSet['13']);
+        object00.value = Math.round(rawValue2);
+        object00.state = dataSet.State;
+        object00.year = dataSet.Year;
+        var visValue2;
 
-    object2.visValue = visValue2;
-    object2.scale.y = visValue2;
+        if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
 
-    heightsGlobal2[layerNumber] = visValue2;
+        object00.visValue = visValue2;
+        object00.scale.y = visValue2;
+
+
+        var object01 = scene.getObjectByName( 'B01' );
+        var rawValue2 = parseInt(dataSet['21'])+parseInt(dataSet['22'])+parseInt(dataSet['23']);
+        object01.value = Math.round(rawValue2);
+        object01.state = dataSet.State;
+        object01.year = dataSet.Year;
+        var visValue2;
+
+        if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
+
+        object01.visValue = visValue2;
+        object01.scale.y = visValue2;
+
+
+
+        var object02 = scene.getObjectByName( 'B02' );
+        var rawValue2 = parseInt(dataSet['31'])+parseInt(dataSet['32'])+parseInt(dataSet['33']);
+        object02.value = Math.round(rawValue2);
+        object02.state = dataSet.State;
+        object02.year = dataSet.Year;
+        var visValue2;
+
+        if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
+
+        object02.visValue = visValue2;
+        object02.scale.y = visValue2;
+
+    } else {
+
+        var object2 = scene.getObjectByName( name );
+        var rawValue2 = parseInt(dataSet['11'])+parseInt(dataSet['12'])+parseInt(dataSet['13'])+parseInt(dataSet['21'])+parseInt(dataSet['22'])+parseInt(dataSet['23'])+parseInt(dataSet['31'])+parseInt(dataSet['32'])+parseInt(dataSet['33']);
+        object2.value = Math.round(rawValue2);
+        object2.state = dataSet.State;
+        object2.year = dataSet.Year;
+        var visValue2;
+
+        if ( rawValue2 < 1 ) { visValue2 = Math.log(correctionValue)/5 } else { visValue2 = Math.log(rawValue2)/5 }
+
+        object2.visValue = visValue2;
+        object2.scale.y = visValue2;
+
+    }
+
+    // heightsGlobal2[layerNumber] = visValue2; // not needed for now
 
 
     for (var i = 0; i<3; i++) {
@@ -709,29 +793,35 @@ function updateGraphVisually() {
         }
     }
 
-    var object1 = scene.getObjectByName( 'B' );
-    object1.position.y = object1.visValue/2;
+    var object00 = scene.getObjectByName( 'B00' );
+    object00.position.y = object00.visValue/2;
+
+    var object01 = scene.getObjectByName( 'B01' );
+    object01.position.y = object01.visValue/2 + object00.visValue;
+
+    var object02 = scene.getObjectByName( 'B02' );
+    object02.position.y = object02.visValue/2 + object00.visValue + object01.visValue;
 
     var object2 = scene.getObjectByName( 'C' );
-    object2.position.y = object2.visValue/2 + object1.visValue;
+    object2.position.y = object2.visValue/2 + object00.visValue + object01.visValue + object02.visValue;
 
     var object3 = scene.getObjectByName( 'A4' );
-    object3.position.y = object3.visValue/2 + object1.visValue + object2.visValue;
+    object3.position.y = object3.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue;
 
     var object4 = scene.getObjectByName( 'A2' );
-    object4.position.y = object4.visValue/2 + object1.visValue + object2.visValue + object3.visValue;
+    object4.position.y = object4.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue + object3.visValue;
 
     var object5 = scene.getObjectByName( 'A5' );
-    object5.position.y = object5.visValue/2 + object1.visValue + object2.visValue + object3.visValue + object4.visValue;
+    object5.position.y = object5.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue + object3.visValue + object4.visValue;
 
     var object6 = scene.getObjectByName( 'A1' );
-    object6.position.y = object6.visValue/2 + object1.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue;
+    object6.position.y = object6.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue;
 
     var object7 = scene.getObjectByName( 'A3' );
-    object7.position.y = object7.visValue/2 + object1.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue + object6.visValue;
+    object7.position.y = object7.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue + object6.visValue;
 
     var object8 = scene.getObjectByName( 'A6' );
-    object8.position.y = object8.visValue/2 + object1.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue + object6.visValue + object7.visValue;
+    object8.position.y = object8.visValue/2 + object00.visValue + object01.visValue + object02.visValue + object2.visValue + object3.visValue + object4.visValue + object5.visValue + object6.visValue + object7.visValue;
 
 }
 
@@ -750,7 +840,9 @@ function updateGraphVisually() {
 //     myDoughnutChart.update();
 // }
 function makeFlat(){
-    scene.getObjectByName( 'B' ).scale.z = 0.01;
+    scene.getObjectByName( 'B00' ).scale.z = 0.01;
+    scene.getObjectByName( 'B01' ).scale.z = 0.01;
+    scene.getObjectByName( 'B02' ).scale.z = 0.01;
     scene.getObjectByName( 'C' ).scale.z = 0.01;
     scene.getObjectByName( 'A4' ).scale.z = 0.01;
     scene.getObjectByName( 'A2' ).scale.z = 0.01;
@@ -760,7 +852,9 @@ function makeFlat(){
     scene.getObjectByName( 'A6' ).scale.z = 0.01;
 }
 function makeFat(){
-    scene.getObjectByName( 'B' ).scale.z = 1;
+    scene.getObjectByName( 'B00' ).scale.z = 1;
+    scene.getObjectByName( 'B01' ).scale.z = 1;
+    scene.getObjectByName( 'B02' ).scale.z = 1;
     scene.getObjectByName( 'C' ).scale.z = 1;
     scene.getObjectByName( 'A4' ).scale.z = 1;
     scene.getObjectByName( 'A2' ).scale.z = 1;
@@ -801,3 +895,72 @@ $('#popup').hover(function(){
 $( '#popup' ).mouseleave(function() {
     $('#popup').addClass('close');
 });
+
+$('.filter-item').click(function(){
+
+    var clickedId = $(this).attr('id');
+
+    if ( $(this).hasClass('on') ) {
+        $(this).removeClass('on');
+        $(this).addClass('off');
+
+        for (var i = graph.length - 1; i >= 0; i--) {
+            if( graph[i].energyType == clickedId ) {
+                graph[i].visible = false;
+            }
+        }
+    } else {
+        $(this).removeClass('off');
+        $(this).addClass('on');
+
+        for (var i = graph.length - 1; i >= 0; i--) {
+            if( graph[i].energyType == clickedId ) {
+                graph[i].visible = true;
+            }
+        }
+    }
+
+});
+
+$('.filter-item2').click(function(){
+
+    var clickedId = $(this).attr('id');
+
+    if ( $(this).hasClass('on') ) {
+        $(this).removeClass('on');
+        $(this).addClass('off');
+
+        for (var i = graph.length - 1; i >= 0; i--) {
+            if( ( graph[i].name.slice(-3) == '-1'+clickedId || graph[i].name.slice(-3) == '-2'+clickedId || graph[i].name.slice(-3) == '-3'+clickedId ) ) {
+                graph[i].visible = false;
+            }
+        }
+    } else {
+        $(this).removeClass('off');
+        $(this).addClass('on');
+
+        for (var i = graph.length - 1; i >= 0; i--) {
+            if( ( graph[i].name.slice(-3) == '-1'+clickedId || graph[i].name.slice(-3) == '-2'+clickedId || graph[i].name.slice(-3) == '-3'+clickedId ) ) {
+                graph[i].visible = true;
+            }
+        }
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+simplemaps_usmap.hooks.click_state=function(id){
+    stateId = id;
+    stateName = simplemaps_usmap_mapdata.state_specific[id].name;
+    changeData(currentYear);
+    console.log('Changed state: ',id,'Current year: ',currentYear);
+}
